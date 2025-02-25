@@ -2,18 +2,25 @@ package application
 
 import (
 	"encoding/json"
-	"github/pull_request_webhook/domain/value_objects"
 	"log"
+
+	"github/pull_request_webhook/domain/value_objects"
 )
 
 func ProcessPullRequestEvent(rawData []byte) int {
 	var eventPayload value_objects.PullRequestEvent
 
 	if err := json.Unmarshal(rawData, &eventPayload); err != nil {
+		log.Printf("Error al deserializar el payload: %v", err)
 		return 403
 	}
 
-	log.Printf("Evento pull request recibido con accion de %s", eventPayload.Action)
+	log.Printf("Evento pull request recibido con acción: %s", eventPayload.Action)
 
+	if eventPayload.Action == "closed" {
+		log.Println("El Pull Request ha sido cerrado.")
+	}
+
+	log.Printf("El Pull Request apunta hacia la rama: %s", eventPayload.PullRequest.Base.Ref)
 	return 200
 }
