@@ -22,5 +22,12 @@ func ProcessPullRequestEvent(rawData []byte) int {
 	}
 
 	log.Printf("El Pull Request apunta hacia la rama: %s", eventPayload.PullRequest.Base.Ref)
+
+	log.Printf("El Pull Request proviene de la rama: %s", eventPayload.PullRequest.Head.Ref)
+
+	log.Printf("El Pull Request fue creado por: %s", eventPayload.PullRequest.User.UserName)
+
+	log.Printf("El Pull Request se realizó en el repositorio: %s", eventPayload.Repository.Name)
+
 	return 200
 }
